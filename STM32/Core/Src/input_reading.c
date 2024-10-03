@@ -22,7 +22,7 @@ static uint16_t counterForButtonPress1s[NO_OF_BUTTONS];
 
 void button_reading(void)
 {
-	for (char i = 0; i < NO_OF_BUTTONS; i++)
+	for (int i = 0; i < NO_OF_BUTTONS; i++)
 	{
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
 		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);

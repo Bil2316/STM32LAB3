@@ -8,7 +8,7 @@
 #ifndef INC_TIMER_H_
 #define INC_TIMER_H_
 
-void set_timer(int duration, index);
+void set_timer(int index, int duration);
 void timer_run();
 
 #endif /* INC_TIMER_H_ */
