@@ -104,7 +104,6 @@ int main(void)
   enum SystemsState systemsState = NORMAL_MODE;
   HAL_GPIO_WritePin(GPIOB, EN1_Pin | EN2_Pin | EN3_Pin | EN4_Pin, 1);
 
-  set_timer(0, 500);
   while (1)
   {
 	  switch(systemsState)
@@ -143,28 +142,6 @@ int main(void)
 		  break;
 	  default:
 		  break;
-	  }
-
-	  if (timer_flag[0] == 1)
-	  {
-		  switch(state1)
-		  {
-		  case 1:
-			  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, 1);
-			  display7SEG1(0);
-			  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, 0);
-			  state1 = 2;
-			  break;
-		  case 2:
-			  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, 1);
-			  display7SEG1(mode_value);
-			  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, 0);
-			  state1 = 1;
-			  break;
-		  default:
-			  break;
-		  }
-		  set_timer(0, 500);
 	  }
 	  fsm_for_input_processing();
     /* USER CODE END WHILE */
