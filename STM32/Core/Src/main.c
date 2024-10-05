@@ -98,29 +98,73 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   enum SystemsState {NORMAL_MODE, MODIFY_RED_MODE, MODIFY_YELLOW_MODE, MODIFY_GREEN_MODE};
+  int state1 = 1; // State of 7SEG 1, 2;
+  int mode_value = 1;
 
   enum SystemsState systemsState = NORMAL_MODE;
   HAL_GPIO_WritePin(GPIOB, EN1_Pin | EN2_Pin | EN3_Pin | EN4_Pin, 1);
 
+  set_timer(0, 500);
   while (1)
   {
-	  if (is_button_press(0))
+	  switch(systemsState)
 	  {
-		  switch(systemsState)
+	  case NORMAL_MODE:
+		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
 		  {
-		  case NORMAL_MODE:
 			  systemsState = MODIFY_RED_MODE;
-			  break;
-		  case MODIFY_RED_MODE:
+			  mode_value = 0;
+			  pressed_flag = 1;
+		  }
+		  break;
+	  case MODIFY_RED_MODE:
+		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
+		  {
 			  systemsState = MODIFY_YELLOW_MODE;
-			  break;
-		  case MODIFY_YELLOW_MODE:
+			  mode_value = 1;
+			  pressed_flag = 1;
+		  }
+		  break;
+	  case MODIFY_YELLOW_MODE:
+		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
+		  {
 			  systemsState = MODIFY_GREEN_MODE;
-			  break;
-		  case MODIFY_GREEN_MODE:
+			  mode_value = 2;
+			  pressed_flag = 1;
+		  }
+		  break;
+	  case MODIFY_GREEN_MODE:
+		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
+		  {
 			  systemsState = NORMAL_MODE;
+			  mode_value = 3;
+			  pressed_flag = 1;
+		  }
+		  break;
+	  default:
+		  break;
+	  }
+
+	  if (timer_flag[0] == 1)
+	  {
+		  switch(state1)
+		  {
+		  case 1:
+			  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, 1);
+			  display7SEG1(0);
+			  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, 0);
+			  state1 = 2;
+			  break;
+		  case 2:
+			  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, 1);
+			  display7SEG1(mode_value);
+			  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, 0);
+			  state1 = 1;
+			  break;
+		  default:
 			  break;
 		  }
+		  set_timer(0, 500);
 	  }
 	  fsm_for_input_processing();
     /* USER CODE END WHILE */
@@ -231,9 +275,8 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, RED1_Pin|YELLOW1_Pin|GREEN1_Pin|EN4_Pin
-                          |SELECT_MODE_Pin|MODIFY_CYCLE_Pin|SET_VALUE_Pin|RED2_Pin
-                          |YELLOW2_Pin|GREEN2_Pin|EN1_Pin|EN2_Pin
-                          |EN3_Pin, GPIO_PIN_RESET);
+                          |RED2_Pin|YELLOW2_Pin|GREEN2_Pin|EN1_Pin
+                          |EN2_Pin|EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : SEG0_Pin SEG1_Pin SEG2_Pin SEG3_Pin
                            SEG4_Pin SEG5_Pin SEG6_Pin SEG7_Pin
@@ -249,16 +292,20 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : RED1_Pin YELLOW1_Pin GREEN1_Pin EN4_Pin
-                           SELECT_MODE_Pin MODIFY_CYCLE_Pin SET_VALUE_Pin RED2_Pin
-                           YELLOW2_Pin GREEN2_Pin EN1_Pin EN2_Pin
-                           EN3_Pin */
+                           RED2_Pin YELLOW2_Pin GREEN2_Pin EN1_Pin
+                           EN2_Pin EN3_Pin */
   GPIO_InitStruct.Pin = RED1_Pin|YELLOW1_Pin|GREEN1_Pin|EN4_Pin
-                          |SELECT_MODE_Pin|MODIFY_CYCLE_Pin|SET_VALUE_Pin|RED2_Pin
-                          |YELLOW2_Pin|GREEN2_Pin|EN1_Pin|EN2_Pin
-                          |EN3_Pin;
+                          |RED2_Pin|YELLOW2_Pin|GREEN2_Pin|EN1_Pin
+                          |EN2_Pin|EN3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SELECT_MODE_Pin MODIFY_CYCLE_Pin SET_VALUE_Pin */
+  GPIO_InitStruct.Pin = SELECT_MODE_Pin|MODIFY_CYCLE_Pin|SET_VALUE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }

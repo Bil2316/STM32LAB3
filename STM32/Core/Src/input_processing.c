@@ -10,7 +10,7 @@
 #include "input_reading.h"
 #include "output_display.h"
 
-enum ButtonState {BUTTON_PRESSED, BUTTON_RELEASED, BUTTON_PRESS_FOR_1S};
+int pressed_flag = 0;
 enum ButtonState buttonState = BUTTON_RELEASED;
 
 void fsm_for_input_processing(void)
@@ -18,7 +18,7 @@ void fsm_for_input_processing(void)
 	switch(buttonState)
 	{
 	case BUTTON_RELEASED:
-		if (!is_button_press(0))
+		if (is_button_press(0))
 		{
 			buttonState = BUTTON_PRESSED;
 		}
@@ -27,6 +27,7 @@ void fsm_for_input_processing(void)
 		if (!is_button_press(0))
 		{
 			buttonState = BUTTON_RELEASED;
+			pressed_flag = 0;
 		}
 		else
 		{
@@ -40,6 +41,7 @@ void fsm_for_input_processing(void)
 		if (!is_button_press(0))
 		{
 			buttonState = BUTTON_RELEASED;
+			pressed_flag = 0;
 		}
 		break;
 	default:

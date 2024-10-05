@@ -55,5 +55,10 @@ unsigned char is_button_press(unsigned char index)
 unsigned char is_button_press_1s(unsigned char index)
 {
 	if (index >= NO_OF_BUTTONS) return 0;
-	return (flagForButtonPress1s[index] == 1);
+	if (flagForButtonPress1s[index] == 1)
+		{
+			flagForButtonPress1s[index] = 0;
+			return 1;
+		}
+	return 0;
 }
