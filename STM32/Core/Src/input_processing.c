@@ -8,20 +8,22 @@
 #include "main.h"
 #include "input_processing.h"
 #include "input_reading.h"
+#include "output_display.h"
 
-enum ButtonState {BUTTON_RELEASED, BUTTON_PRESSED, BUTTON_PRESSED_MORE_THAN_1S};
+enum ButtonState {BUTTON_PRESSED, BUTTON_RELEASED, BUTTON_PRESS_FOR_1S};
 enum ButtonState buttonState = BUTTON_RELEASED;
+
+int mode_value = 0;
 
 void fsm_for_input_processing(void)
 {
 	switch(buttonState)
 	{
 	case BUTTON_RELEASED:
-		if (is_button_press(0))
+		if (!is_button_press(0))
 		{
 			buttonState = BUTTON_PRESSED;
 		}
-		// Increasing value
 		break;
 	case BUTTON_PRESSED:
 		if (!is_button_press(0))
@@ -32,16 +34,17 @@ void fsm_for_input_processing(void)
 		{
 			if (is_button_press_1s(0))
 			{
-				buttonState = BUTTON_PRESSED_MORE_THAN_1S;
+				buttonState = BUTTON_PRESS_FOR_1S;
 			}
 		}
 		break;
-	case BUTTON_PRESSED_MORE_THAN_1S:
+	case BUTTON_PRESS_FOR_1S:
 		if (!is_button_press(0))
 		{
 			buttonState = BUTTON_RELEASED;
 		}
-		// Increasing value after each 500ms
+		break;
+	default:
 		break;
 	}
 }

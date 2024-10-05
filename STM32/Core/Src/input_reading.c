@@ -8,11 +8,6 @@
 #include "main.h"
 #include "input_reading.h"
 
-#define NO_OF_BUTTONS				1
-#define DURATION_FOR_INCREASING		100
-#define BUTTON_IS_PRESSED			GPIO_PIN_RESET
-#define BUTTON_IS_RELEASED			GPIO_PIN_SET
-
 static GPIO_PinState buttonBuffer[NO_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer1[NO_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer2[NO_OF_BUTTONS];
@@ -25,7 +20,7 @@ void button_reading(void)
 	for (int i = 0; i < NO_OF_BUTTONS; i++)
 	{
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
-		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
+		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(SELECT_MODE_GPIO_Port, SELECT_MODE_Pin);
 
 		if (debounceButtonBuffer1[i] == debounceButtonBuffer2[i])
 		{
@@ -39,6 +34,7 @@ void button_reading(void)
 				else
 				{
 					flagForButtonPress1s[i] = 1;
+					// TO DO
 				}
 			}
 			else

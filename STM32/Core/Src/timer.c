@@ -9,9 +9,6 @@
 #include "timer.h"
 #include "input_reading.h"
 
-#define NO_OF_TIMERS		10
-#define TIMER_CYCLE			10
-
 int timer_counter[NO_OF_TIMERS] = {0};
 int timer_flag[NO_OF_TIMERS] = {0};
 
@@ -34,6 +31,7 @@ void HAL_TIM_PeriodElapedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM2)
 	{
+		timer_run();
 		button_reading();
 	}
 }
