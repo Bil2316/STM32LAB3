@@ -97,13 +97,31 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int state = 1;
+  enum SystemsState {NORMAL_MODE, MODIFY_RED_MODE, MODIFY_YELLOW_MODE, MODIFY_GREEN_MODE};
 
+  enum SystemsState systemsState = NORMAL_MODE;
   HAL_GPIO_WritePin(GPIOB, EN1_Pin | EN2_Pin | EN3_Pin | EN4_Pin, 1);
 
-  set_timer(0, 500);
   while (1)
   {
+	  if (is_button_press(0))
+	  {
+		  switch(systemsState)
+		  {
+		  case NORMAL_MODE:
+			  systemsState = MODIFY_RED_MODE;
+			  break;
+		  case MODIFY_RED_MODE:
+			  systemsState = MODIFY_YELLOW_MODE;
+			  break;
+		  case MODIFY_YELLOW_MODE:
+			  systemsState = MODIFY_GREEN_MODE;
+			  break;
+		  case MODIFY_GREEN_MODE:
+			  systemsState = NORMAL_MODE;
+			  break;
+		  }
+	  }
 	  fsm_for_input_processing();
     /* USER CODE END WHILE */
 

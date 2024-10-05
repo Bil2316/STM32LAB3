@@ -13,8 +13,6 @@
 enum ButtonState {BUTTON_PRESSED, BUTTON_RELEASED, BUTTON_PRESS_FOR_1S};
 enum ButtonState buttonState = BUTTON_RELEASED;
 
-int mode_value = 0;
-
 void fsm_for_input_processing(void)
 {
 	switch(buttonState)
