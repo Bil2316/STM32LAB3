@@ -5,7 +5,6 @@
  *      Author: BilH
  */
 
-#include "main.h"
 #include "input_reading.h"
 
 static GPIO_PinState buttonBuffer[NO_OF_BUTTONS];
@@ -14,6 +13,16 @@ static GPIO_PinState debounceButtonBuffer2[NO_OF_BUTTONS];
 
 static uint8_t flagForButtonPress1s[NO_OF_BUTTONS];
 static uint16_t counterForButtonPress1s[NO_OF_BUTTONS];
+
+void init_button(void)
+{
+	buttonBuffer[0] = BUTTON_IS_RELEASED;
+	debounceButtonBuffer1[0] = BUTTON_IS_RELEASED;
+	debounceButtonBuffer2[0] = BUTTON_IS_RELEASED;
+
+	flagForButtonPress1s[0] = 0;
+	counterForButtonPress1s[0] = 0;
+}
 
 void button_reading(void)
 {

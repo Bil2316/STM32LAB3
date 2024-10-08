@@ -1,2 +1,7 @@
-output_display.c:11:6:display7SEG1	32	static
-output_display.c:24:6:display7SEG2	32	static
+output_display.c:24:6:reset_all_led	8	static
+output_display.c:41:6:reset_blink	8	static
+output_display.c:50:6:display7SEG1	16	static
+output_display.c:61:6:display7SEG2	16	static
+output_display.c:72:6:display_trafic_light	8	static
+output_display.c:191:6:display_mode	16	static
+output_display.c:216:6:blink_led	16	static

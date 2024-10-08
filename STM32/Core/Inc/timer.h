@@ -10,7 +10,7 @@
 #ifndef INC_TIMER_H_
 #define INC_TIMER_H_
 
-#define NO_OF_TIMERS		1
+#define NO_OF_TIMERS		5
 #define TIMER_CYCLE			10
 
 extern int timer_counter[NO_OF_TIMERS];

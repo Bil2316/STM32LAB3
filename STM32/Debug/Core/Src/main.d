@@ -25,6 +25,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Core/Inc/timer.h ../Core/Inc/main.h ../Core/Inc/input_reading.h \
  ../Core/Inc/input_reading.h ../Core/Inc/input_processing.h \
+ ../Core/Inc/output_display.h ../Core/Inc/timer.h \
  ../Core/Inc/output_display.h
 
 ../Core/Inc/main.h:
@@ -86,5 +87,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/input_reading.h:
 
 ../Core/Inc/input_processing.h:
+
+../Core/Inc/output_display.h:
+
+../Core/Inc/timer.h:
 
 ../Core/Inc/output_display.h:
