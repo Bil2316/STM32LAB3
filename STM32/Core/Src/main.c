@@ -228,16 +228,48 @@ int main(void)
 	  case MODIFY_GREEN:
 		  blink_led(traficLight);
 		  display_mode(3);
+		  display_counter(counter_temp);
 		  if (buttonState[0] == BUTTON_PRESSED && pressed_flag[0] == 0)
 		  {
 			  systemsState = NORMAL_MODE;
 			  pressed_flag[0] = 1;
 			  reset_all_led();
 		  }
+		  if (buttonState[1] == BUTTON_PRESSED && pressed_flag[1] == 0)
+		  {
+			  systemsState = UPDATE_GREEN_COUNTER;
+			  pressed_flag[1] = 1;
+			  counter_temp++;
+			  if (counter_temp >= 100)
+			  {
+				  counter_temp = 0;
+			  }
+		  }
 		  break;
 	  case UPDATE_GREEN_COUNTER:
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_GREEN;
+		  }
+		  if (buttonState[1] == BUTTON_PRESS_FOR_1S)
+		  {
+			  systemsState = AUTO_UPDATE_GREEN_COUNTER;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE); // Auto increasing counter
+		  }
 		  break;
 	  case AUTO_UPDATE_GREEN_COUNTER:
+		  blink_led(traficLight);
+		  display_mode(3);
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_GREEN;
+		  }
+		  if (timer_flag[4] == 1)
+		  {
+			  counter_temp++;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE);
+		  }
+		  display_counter(counter_temp);
 		  break;
 	  case SET_VALUE:
 		  break;
