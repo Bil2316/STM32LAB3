@@ -113,7 +113,7 @@ int main(void)
   while (1)
   {
 	  fsm_for_input_processing(0); // Button SELECT_MODE
-	  fsm_for_input_processing(1); // Button MODIFY_MODE
+//	  fsm_for_input_processing(1); // Button MODIFY_MODE
 	  fsm_for_input_processing(2); // Button SELECT_VALUE
 	  switch(systemsState)
 	  {

@@ -17,7 +17,6 @@ extern int pressed_flag[NO_OF_BUTTONS];
 enum ButtonState {BUTTON_PRESSED, BUTTON_RELEASED, BUTTON_PRESS_FOR_1S};
 enum ButtonState buttonState[NO_OF_BUTTONS];
 
-void button_init(void);
 void fsm_for_input_processing(int index);
 
 #endif /* INC_INPUT_PROCESSING_H_ */
