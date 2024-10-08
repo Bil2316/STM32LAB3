@@ -136,6 +136,7 @@ int main(void)
 		  {
 			  systemsState = MODIFY_YELLOW;
 			  traficLight = YELLOW;
+			  counter_temp = yellow_counter;
 			  pressed_flag[0] = 1;
 			  reset_blink();
 		  }
@@ -179,17 +180,50 @@ int main(void)
 	  case MODIFY_YELLOW:
 		  blink_led(traficLight);
 		  display_mode(2);
+		  display_counter(counter_temp);
 		  if (buttonState[0] == BUTTON_PRESSED && pressed_flag[0] == 0)
 		  {
 			  systemsState = MODIFY_GREEN;
 			  traficLight = GREEN;
+			  counter_temp = green_counter;
 			  pressed_flag[0] = 1;
 			  reset_blink();
 		  }
-		  break;
-	  case AUTO_UPDATE_YELLOW_COUNTER:
+		  if (buttonState[1] == BUTTON_PRESSED && pressed_flag[1] == 0)
+		  {
+			  systemsState = UPDATE_YELLOW_COUNTER;
+			  pressed_flag[1] = 1;
+			  counter_temp++;
+			  if (counter_temp >= 100)
+			  {
+				  counter_temp = 0;
+			  }
+		  }
 		  break;
 	  case UPDATE_YELLOW_COUNTER:
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_YELLOW;
+		  }
+		  if (buttonState[1] == BUTTON_PRESS_FOR_1S)
+		  {
+			  systemsState = AUTO_UPDATE_YELLOW_COUNTER;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE); // Auto increasing counter
+		  }
+		  break;
+	  case AUTO_UPDATE_YELLOW_COUNTER:
+		  blink_led(traficLight);
+		  display_mode(2);
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_YELLOW;
+		  }
+		  if (timer_flag[4] == 1)
+		  {
+			  counter_temp++;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE);
+		  }
+		  display_counter(counter_temp);
 		  break;
 	  case MODIFY_GREEN:
 		  blink_led(traficLight);
