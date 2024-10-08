@@ -10,7 +10,7 @@
 
 #include "main.h"
 
-#define NO_OF_BUTTONS				1
+#define NO_OF_BUTTONS				3
 #define DURATION_FOR_INCREASING		1000
 #define BUTTON_IS_PRESSED			GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED			GPIO_PIN_SET

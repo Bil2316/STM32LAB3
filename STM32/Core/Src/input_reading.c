@@ -16,12 +16,15 @@ static uint16_t counterForButtonPress1s[NO_OF_BUTTONS];
 
 void init_button(void)
 {
-	buttonBuffer[0] = BUTTON_IS_RELEASED;
-	debounceButtonBuffer1[0] = BUTTON_IS_RELEASED;
-	debounceButtonBuffer2[0] = BUTTON_IS_RELEASED;
+	for (int i = 0; i < NO_OF_BUTTONS; i++)
+	{
+		buttonBuffer[i] = BUTTON_IS_RELEASED;
+		debounceButtonBuffer1[i] = BUTTON_IS_RELEASED;
+		debounceButtonBuffer2[i] = BUTTON_IS_RELEASED;
 
-	flagForButtonPress1s[0] = 0;
-	counterForButtonPress1s[0] = 0;
+		flagForButtonPress1s[i] = 0;
+		counterForButtonPress1s[i] = 0;
+	}
 }
 
 void button_reading(void)
