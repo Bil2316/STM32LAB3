@@ -8,11 +8,14 @@
 #ifndef INC_INPUT_READING_H_
 #define INC_INPUT_READING_H_
 
-#define NO_OF_BUTTONS				3
+#include "main.h"
+
+#define NO_OF_BUTTONS				1
 #define DURATION_FOR_INCREASING		1000
 #define BUTTON_IS_PRESSED			GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED			GPIO_PIN_SET
 
+void init_button(void);
 void button_reading(void);
 unsigned char is_button_press(unsigned char index);
 unsigned char is_button_press_1s(unsigned char index);

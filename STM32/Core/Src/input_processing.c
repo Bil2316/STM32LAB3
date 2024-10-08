@@ -5,13 +5,15 @@
  *      Author: BilH
  */
 
-#include "main.h"
 #include "input_processing.h"
-#include "input_reading.h"
-#include "output_display.h"
 
 int pressed_flag = 0;
 enum ButtonState buttonState = BUTTON_RELEASED;
+
+void button_init(void)
+{
+	buttonState = BUTTON_RELEASED;
+}
 
 void fsm_for_input_processing(void)
 {

@@ -59,7 +59,11 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void system_init(void)
+{
+	init_button();
+	reset_all_led();
+}
 /* USER CODE END 0 */
 
 /**
@@ -97,53 +101,65 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  enum SystemsState {NORMAL_MODE, MODIFY_RED_MODE, MODIFY_YELLOW_MODE, MODIFY_GREEN_MODE};
-  int state1 = 1; // State of 7SEG 1, 2;
-  int mode_value = 1;
+  enum SystemsState {NORMAL_MODE, MODIFY_RED, MODIFY_YELLOW, MODIFY_GREEN};
 
   enum SystemsState systemsState = NORMAL_MODE;
-  HAL_GPIO_WritePin(GPIOB, EN1_Pin | EN2_Pin | EN3_Pin | EN4_Pin, 1);
 
+<<<<<<< HEAD
+=======
+  system_init();
+>>>>>>> Ex6
   while (1)
   {
+	  fsm_for_input_processing();
 	  switch(systemsState)
 	  {
 	  case NORMAL_MODE:
+		  display_trafic_light();
 		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
 		  {
-			  systemsState = MODIFY_RED_MODE;
-			  mode_value = 0;
+			  systemsState = MODIFY_RED;
 			  pressed_flag = 1;
+			  reset_blink();
 		  }
 		  break;
-	  case MODIFY_RED_MODE:
+	  case MODIFY_RED:
+		  blink_led(RED);
+		  display_mode(1);
 		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
 		  {
-			  systemsState = MODIFY_YELLOW_MODE;
-			  mode_value = 1;
+			  systemsState = MODIFY_YELLOW;
 			  pressed_flag = 1;
+			  reset_blink();
 		  }
 		  break;
-	  case MODIFY_YELLOW_MODE:
+	  case MODIFY_YELLOW:
+		  blink_led(YELLOW);
+		  display_mode(2);
 		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
 		  {
-			  systemsState = MODIFY_GREEN_MODE;
-			  mode_value = 2;
+			  systemsState = MODIFY_GREEN;
 			  pressed_flag = 1;
+			  reset_blink();
 		  }
 		  break;
-	  case MODIFY_GREEN_MODE:
+	  case MODIFY_GREEN:
+		  blink_led(GREEN);
+		  display_mode(3);
 		  if (buttonState == BUTTON_PRESSED && pressed_flag == 0)
 		  {
 			  systemsState = NORMAL_MODE;
-			  mode_value = 3;
 			  pressed_flag = 1;
+			  reset_all_led();
 		  }
 		  break;
 	  default:
 		  break;
 	  }
+<<<<<<< HEAD
 	  fsm_for_input_processing();
+=======
+>>>>>>> Ex6
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
