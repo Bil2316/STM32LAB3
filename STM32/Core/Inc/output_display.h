@@ -22,5 +22,6 @@ void display7SEG2(int num);
 void display_trafic_light(void);
 void blink_led(enum TraficLight);
 void display_mode(int mode);
+void display_counter(int counter);
 
 #endif /* INC_OUTPUT_DISPLAY_H_ */

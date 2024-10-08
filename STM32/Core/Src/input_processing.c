@@ -14,27 +14,27 @@ void fsm_for_input_processing(int index)
 	switch(buttonState[index])
 	{
 	case BUTTON_RELEASED:
-		if (is_button_press(0))
+		if (is_button_press(index))
 		{
 			buttonState[index] = BUTTON_PRESSED;
 		}
 		break;
 	case BUTTON_PRESSED:
-		if (!is_button_press(0))
+		if (!is_button_press(index))
 		{
 			buttonState[index] = BUTTON_RELEASED;
 			pressed_flag[index] = 0;
 		}
 		else
 		{
-			if (is_button_press_1s(0))
+			if (is_button_press_1s(index))
 			{
 				buttonState[index] = BUTTON_PRESS_FOR_1S;
 			}
 		}
 		break;
 	case BUTTON_PRESS_FOR_1S:
-		if (!is_button_press(0))
+		if (!is_button_press(index))
 		{
 			buttonState[index] = BUTTON_RELEASED;
 			pressed_flag[index] = 0;

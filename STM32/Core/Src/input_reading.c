@@ -32,7 +32,7 @@ void button_reading(void)
 	for (int i = 0; i < NO_OF_BUTTONS; i++)
 	{
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
-		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(SELECT_MODE_GPIO_Port, SELECT_MODE_Pin);
+		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(GPIOB, SELECT_MODE_Pin << i);
 
 		if (debounceButtonBuffer1[i] == debounceButtonBuffer2[i])
 		{
@@ -67,10 +67,5 @@ unsigned char is_button_press(unsigned char index)
 unsigned char is_button_press_1s(unsigned char index)
 {
 	if (index >= NO_OF_BUTTONS) return 0;
-	if (flagForButtonPress1s[index] == 1)
-		{
-			flagForButtonPress1s[index] = 0;
-			return 1;
-		}
-	return 0;
+	return (flagForButtonPress1s[index] == 1);
 }

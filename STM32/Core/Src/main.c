@@ -106,14 +106,14 @@ int main(void)
 	  , MODIFY_GREEN, UPDATE_GREEN_COUNTER, AUTO_UPDATE_GREEN_COUNTER, SET_VALUE};
 
   enum SystemsState systemsState = NORMAL_MODE;
-  int counter_temp = 0;
+  int counter_temp = red_counter;
   enum TraficLight traficLight = RED;
 
   system_init();
   while (1)
   {
 	  fsm_for_input_processing(0); // Button SELECT_MODE
-//	  fsm_for_input_processing(1); // Button MODIFY_MODE
+	  fsm_for_input_processing(1); // Button MODIFY_MODE
 	  fsm_for_input_processing(2); // Button SELECT_VALUE
 	  switch(systemsState)
 	  {
@@ -123,6 +123,7 @@ int main(void)
 		  {
 			  systemsState = MODIFY_RED;
 			  traficLight = RED;
+			  counter_temp = red_counter;
 			  pressed_flag[0] = 1;
 			  reset_blink();
 		  }
@@ -130,6 +131,7 @@ int main(void)
 	  case MODIFY_RED:
 		  blink_led(traficLight);
 		  display_mode(1);
+		  display_counter(counter_temp);
 		  if (buttonState[0] == BUTTON_PRESSED && pressed_flag[0] == 0)
 		  {
 			  systemsState = MODIFY_YELLOW;
@@ -139,10 +141,40 @@ int main(void)
 		  }
 		  if (buttonState[1] == BUTTON_PRESSED && pressed_flag[1] == 0)
 		  {
-			  systemsState = UPDATE_YELLOW_COUNTER;
+			  systemsState = UPDATE_RED_COUNTER;
 			  pressed_flag[1] = 1;
-			  counter_temp = red_counter;
+			  counter_temp++;
+			  if (counter_temp >= 100)
+			  {
+				  counter_temp = 0;
+			  }
 		  }
+		  break;
+	  case UPDATE_RED_COUNTER:
+//		  blink_led(traficLight);
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_RED;
+		  }
+		  if (buttonState[1] == BUTTON_PRESS_FOR_1S)
+		  {
+			  systemsState = AUTO_UPDATE_RED_COUNTER;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE); // Auto increasing counter
+		  }
+		  break;
+	  case AUTO_UPDATE_RED_COUNTER:
+		  blink_led(traficLight);
+		  display_mode(1);
+		  if (buttonState[1] == BUTTON_RELEASED)
+		  {
+			  systemsState = MODIFY_RED;
+		  }
+		  if (timer_flag[4] == 1)
+		  {
+			  counter_temp++;
+			  set_timer(4, DURATION_FOR_INCREASING * TIMER_CYCLE);
+		  }
+		  display_counter(counter_temp);
 		  break;
 	  case MODIFY_YELLOW:
 		  blink_led(traficLight);
@@ -155,34 +187,21 @@ int main(void)
 			  reset_blink();
 		  }
 		  break;
+	  case AUTO_UPDATE_YELLOW_COUNTER:
+		  break;
+	  case UPDATE_YELLOW_COUNTER:
+		  break;
 	  case MODIFY_GREEN:
 		  blink_led(traficLight);
 		  display_mode(3);
-		  if (buttonState[0] == BUTTON_PRESSED && pressed_flag == 0)
+		  if (buttonState[0] == BUTTON_PRESSED && pressed_flag[0] == 0)
 		  {
 			  systemsState = NORMAL_MODE;
 			  pressed_flag[0] = 1;
 			  reset_all_led();
 		  }
 		  break;
-	  case UPDATE_RED_COUNTER:
-		  counter_temp++;
-		  if (buttonState[0] == BUTTON_RELEASED)
-		  {
-			  systemsState = MODIFY_RED;
-		  }
-		  if (buttonState[1] == BUTTON_PRESS_FOR_1S)
-		  {
-			  systemsState = AUTO_UPDATE_RED_COUNTER;
-		  }
-		  break;
-	  case UPDATE_YELLOW_COUNTER:
-		  break;
 	  case UPDATE_GREEN_COUNTER:
-		  break;
-	  case AUTO_UPDATE_RED_COUNTER:
-		  break;
-	  case AUTO_UPDATE_YELLOW_COUNTER:
 		  break;
 	  case AUTO_UPDATE_GREEN_COUNTER:
 		  break;

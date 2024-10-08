@@ -1,7 +1,8 @@
 output_display.c:24:6:reset_all_led	8	static
 output_display.c:41:6:reset_blink	8	static
-output_display.c:50:6:display7SEG1	16	static
-output_display.c:61:6:display7SEG2	16	static
-output_display.c:72:6:display_trafic_light	8	static
-output_display.c:191:6:display_mode	16	static
-output_display.c:216:6:blink_led	16	static
+output_display.c:53:6:display7SEG1	16	static
+output_display.c:64:6:display7SEG2	16	static
+output_display.c:75:6:display_trafic_light	8	static
+output_display.c:194:6:display_mode	16	static
+output_display.c:219:6:display_counter	16	static
+output_display.c:244:6:blink_led	16	static

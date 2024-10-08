@@ -43,7 +43,10 @@ void reset_blink(void)
 	HAL_GPIO_WritePin(GPIOB, RED1_Pin | RED2_Pin | YELLOW1_Pin | YELLOW2_Pin
 				| GREEN1_Pin | GREEN2_Pin, 1);
 	HAL_GPIO_WritePin(GPIOB, EN1_Pin | EN2_Pin | EN3_Pin | EN4_Pin, 1);
+	display_mode_state1 = 1; // LED 7 segments 1,2
+	display_mode_state2 = 3; // LED 7 segments 3,4
 	set_timer(0, 500);
+	set_timer(1, 500);
 	set_timer(2, 500);
 }
 
@@ -210,6 +213,31 @@ void display_mode(int mode)
 			break;
 		}
 		set_timer(0, 500);
+	}
+}
+
+void display_counter(int counter)
+{
+	if (timer_flag[1] == 1)
+	{
+		switch(display_mode_state2)
+		{
+		case 3:
+			HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, 1);
+			display7SEG2(counter / 10);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, 0);
+			display_mode_state2 = 4;
+			break;
+		case 4:
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, 1);
+			display7SEG2(counter % 10);
+			HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, 0);
+			display_mode_state2 = 3;
+			break;
+		default:
+			break;
+		}
+		set_timer(1, 500);
 	}
 }
 
