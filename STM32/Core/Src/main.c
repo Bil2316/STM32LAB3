@@ -150,6 +150,10 @@ int main(void)
 				  counter_temp = 0;
 			  }
 		  }
+		  if (buttonState[2] == BUTTON_PRESSED)
+		  {
+			  systemsState = SET_VALUE;
+		  }
 		  break;
 	  case UPDATE_RED_COUNTER:
 //		  blink_led(traficLight);
@@ -199,6 +203,10 @@ int main(void)
 				  counter_temp = 0;
 			  }
 		  }
+		  if (buttonState[2] == BUTTON_PRESSED)
+		  {
+			  systemsState = SET_VALUE;
+		  }
 		  break;
 	  case UPDATE_YELLOW_COUNTER:
 		  if (buttonState[1] == BUTTON_RELEASED)
@@ -245,6 +253,10 @@ int main(void)
 				  counter_temp = 0;
 			  }
 		  }
+		  if (buttonState[2] == BUTTON_PRESSED)
+		  {
+			  systemsState = SET_VALUE;
+		  }
 		  break;
 	  case UPDATE_GREEN_COUNTER:
 		  if (buttonState[1] == BUTTON_RELEASED)
@@ -272,6 +284,23 @@ int main(void)
 		  display_counter(counter_temp);
 		  break;
 	  case SET_VALUE:
+		  switch(traficLight)
+		  {
+		  case RED:
+			  red_counter = counter_temp;
+			  break;
+		  case YELLOW:
+			  yellow_counter = counter_temp;
+			  break;
+		  case GREEN:
+			  green_counter = counter_temp;
+			  break;
+		  }
+		  if (buttonState[2] == BUTTON_RELEASED)
+		  {
+			  systemsState = NORMAL_MODE;
+			  reset_all_led();
+		  }
 		  break;
 	  default:
 		  break;
